@@ -5,6 +5,11 @@ from enum import Enum
 import requests
 from aiocache import cached
 
+
+class AppSettings(BaseSettings):
+    model_config = SettingsConfigDict(env_prefix='APP_')
+    api_key: str = Field('')
+
 # using Enum for country name to prevent code injection in API
 class Country(str,Enum):
 
@@ -213,3 +218,28 @@ class Country(str,Enum):
     YEMEN = "Yemen"
     ZAMBIA = "Zambia"
     ZIMBABWE = "Zimbabwe"
+
+
+settings = AppSettings()
+app = FastAPI()
+
+@cached(ttl=600) # will cache the query result for 600 seconds
+async def query_github(country:Country):
+    req = requests.get(f"https://api.github.com/search/users?q=location:{country.value}&repos:%3E1")
+    status_code = req.status_code
+    total_count = req.json().get('total_count') if status_code==200 else None
+
+    return status_code, total_count
+
+
+@app.get('/list/countries')
+async def get_list_of_countries():
+
+    return [country.value for country in Country]
+
+@app.get('/search')
+async def search_by_country(country: Country):
+
+    status_code, total_count = await query_github(country)    
+
+    return {"country": country.value, "req_status":status_code, "count":total_count}

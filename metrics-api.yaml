@@ -55,7 +55,7 @@ spec:
     app.kubernetes.io/name: github-api
   ports:
     - protocol: TCP
-      port: 80
+      port: 8000
       targetPort: 8000
   type: LoadBalancer
 ---
@@ -76,7 +76,7 @@ spec:
           service:
             name: github-api-service
             port:
-              number: 80
+              number: 8000
         path: /api/v1/?(.*)
         pathType: ImplementationSpecific
   tls:

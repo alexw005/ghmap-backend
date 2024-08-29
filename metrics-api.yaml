@@ -39,6 +39,8 @@ spec:
           runAsUser: 101
           seccompProfile:
             type: RuntimeDefault
+      imagePullSecrets:
+        - name: regcred
      
 ---
 apiVersion: v1

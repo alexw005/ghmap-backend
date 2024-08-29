@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "github-query"
+version = "0.1.0"
+description = "A backend tat queries github repos"
+authors = ["Woon Fu Seong"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = {extras = ["standard"], version = "^0.112.2"}
+pydantic = "^2.8.2"
+pydantic-settings = "^2.4.0"
+requests = "^2.32.3"
+asyncio = "^3.4.3"
+aiocache = "^0.12.2"
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.8.0"
+flake9-isort = "^4.0.2"
+mypy = "^1.11.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

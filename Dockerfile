@@ -11,7 +11,6 @@ WORKDIR /app
 COPY pyproject.toml poetry.lock ./ 
 RUN touch README.md 
 
-#RUN --mount=type=cache,target=$POETRY_CACHE_DIR poetry install --without dev --no-root 
 RUN target=$POETRY_CACHE_DIR poetry install --without dev --no-root 
 
 FROM python:3.12.5-alpine3.19 AS runtime 

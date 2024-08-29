@@ -5,11 +5,52 @@ from enum import Enum
 import requests
 from aiocache import cached
 
-class AppSettings(BaseSettings):
-    model_config = SettingsConfigDict(env_prefix='APP_')
-    api_key: str = Field('')
+# using Enum for country name to prevent code injection in API
+class Country(str,Enum):
 
-le"
+    @classmethod
+    def _missing_(cls, value):
+        value = value.lower()
+        for member in cls:
+            if member.lower() == value:
+                return member
+        return None
+    
+    AFGHANISTAN = "Afghanistan"
+    ALBANIA = "Albania"
+    ALGERIA = "Algeria"
+    ANDORRA = "Andorra"
+    ANGOLA = "Angola"
+    ANTIGUA_AND_BARBUDA = "Antigua and Barbuda"
+    ARGENTINA = "Argentina"
+    ARMENIA = "Armenia"
+    AUSTRALIA = "Australia"
+    AUSTRIA = "Austria"
+    AZERBAIJAN = "Azerbaijan"
+    BAHAMAS = "Bahamas"
+    BAHRAIN = "Bahrain"
+    BANGLADESH = "Bangladesh"
+    BARBADOS = "Barbados"
+    BELARUS = "Belarus"
+    BELGIUM = "Belgium"
+    BELIZE = "Belize"
+    BENIN = "Benin"
+    BHUTAN = "Bhutan"
+    BOLIVIA = "Bolivia"
+    BOSNIA_AND_HERZEGOVINA = "Bosnia and Herzegovina"
+    BOTSWANA = "Botswana"
+    BRAZIL = "Brazil"
+    BRUNEI = "Brunei"
+    BULGARIA = "Bulgaria"
+    BURKINA_FASO = "Burkina Faso"
+    BURUNDI = "Burundi"
+    CABO_VERDE = "Cabo Verde"
+    CAMBODIA = "Cambodia"
+    CAMEROON = "Cameroon"
+    CANADA = "Canada"
+    CENTRAL_AFRICAN_REPUBLIC = "Central African Republic"
+    CHAD = "Chad"
+    CHILE = "Chile"
     CHINA = "China"
     COLOMBIA = "Colombia"
     COMOROS = "Comoros"

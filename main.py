@@ -221,7 +221,9 @@ class Country(str,Enum):
 
 
 settings = AppSettings()
-app = FastAPI()
+app = FastAPI(
+    root_path="/api/v1",
+    servers=[{"url": "/api/v1"}])
 
 @cached(ttl=600) # will cache the query result for 600 seconds
 async def query_github(country:Country):

@@ -4,7 +4,7 @@ from pydantic import Field
 from enum import Enum
 import requests
 from aiocache import cached
-
+from fastapi.middleware.cors import CORSMiddleware
 
 class AppSettings(BaseSettings):
     model_config = SettingsConfigDict(env_prefix='APP_')
@@ -224,7 +224,17 @@ settings = AppSettings()
 app = FastAPI(
     root_path="/api/v1",
     servers=[{"url": "/api/v1"}])
+origins = [
+    "http://localhost:3000",
+]
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 @cached(ttl=600) # will cache the query result for 600 seconds
 async def query_github(country:Country):
     req = requests.get(f"https://api.github.com/search/users?q=location:{country.value}&repos:%3E1")
